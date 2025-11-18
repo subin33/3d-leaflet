@@ -1,15 +1,24 @@
+@keyframes start-ani {
+  0% {
+    transform: translate(-100%, 100%) rotate(-540deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+}
 html {
   font-size: 14px;
 }
 body {
   font-family: "Playfair Display", serif;
-
   background: url("../images/tablewood.jpg");
   background-size: auto 130px;
   perspective: 1500px;
 }
 .hand {
   position: absolute;
+  left: 70%;
+  top: 70%;
   z-index: 10;
   width: 400px;
 }
@@ -33,6 +42,7 @@ body {
   transform-style: preserve-3d;
   transition: 1s;
   cursor: pointer;
+  animation: start-ani 1s forwards;
 }
 
 .page {
@@ -68,6 +78,7 @@ body {
   height: 100%;
   background: cornsilk;
   backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 .page-face:nth-child(2) {
   transform: rotateY(180deg);
@@ -103,6 +114,7 @@ body {
 
 .menu-list {
   font-size: 0.7rem;
+  transform-style: preserve-3d;
 }
 .menu-item {
   display: flex;
@@ -110,6 +122,7 @@ body {
   position: relative;
   padding: 2rem;
   transition: 0.5s;
+  transform-style: preserve-3d;
 }
 
 .zoom-in .menu-item {
