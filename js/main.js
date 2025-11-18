@@ -1,7 +1,14 @@
 (() => {
+  const hand = document.querySelector(".hand");
   const leaflet = document.querySelector(".leaflet");
   const pageElems = document.querySelectorAll(".page");
   let pageCount = 0;
+  let currentMenu;
+
+  const handPos = { x: 0, y: 0 };
+  const targetPos = { x: 0, y: 0 };
+  let distX;
+  let distY;
 
   function getTarget(elem, className) {
     while (!elem.classList.contains(className)) {
@@ -43,8 +50,30 @@
         break;
     }
 
+    document.body.classList.add("zoom-in");
     leaflet.style.transform = `translate3d(${dx}px, ${dy}px, 50vw) rotateY(${angle}deg)`;
+    currentMenu = elem;
+    currentMenu.classList.add("current-menu");
   }
+
+  function zoomOut() {
+    leaflet.style.transform = "translate3d(0,0,0)";
+    if (currentMenu) {
+      document.body.classList.remove("zoom-in");
+      currentMenu.classList.remove("current-menu");
+      currentMenu = null;
+    }
+  }
+
+  function render() {
+    distX = targetPos.x - handPos.x;
+    distY = targetPos.y - handPos.y;
+    handPos.x = handPos.x + distX * 0.1;
+    handPos.y = handPos.y + distY * 0.1;
+    hand.style.transform = `translate(${handPos.x - 60}px, ${handPos.y + 30}px)`;
+    requestAnimationFrame(render);
+  }
+  render();
 
   leaflet.addEventListener("click", (e) => {
     let pageElem = getTarget(e.target, "page");
@@ -59,11 +88,22 @@
     let closeBtnElem = getTarget(e.target, "close-btn");
     if (closeBtnElem) {
       closeLeaflet();
+      zoomOut();
     }
 
     let menuItemElem = getTarget(e.target, "menu-item");
     if (menuItemElem) {
       zoomIn(menuItemElem);
     }
+
+    let backBtn = getTarget(e.target, "back-btn");
+    if (backBtn) {
+      zoomOut();
+    }
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    targetPos.x = e.clientX;
+    targetPos.y = e.clientY;
   });
 })();

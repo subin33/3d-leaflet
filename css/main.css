@@ -8,7 +8,19 @@ body {
   background-size: auto 130px;
   perspective: 1500px;
 }
+.hand {
+  position: absolute;
+  z-index: 10;
+  width: 400px;
+}
+.hand img {
+  transition: 1s;
+}
+.zoom-in .hand img {
+  transform-origin: left top;
 
+  transform: scale(2);
+}
 .leaflet {
   position: absolute;
   left: 0;
@@ -20,6 +32,7 @@ body {
   margin: auto;
   transform-style: preserve-3d;
   transition: 1s;
+  cursor: pointer;
 }
 
 .page {
@@ -96,6 +109,17 @@ body {
   align-items: center;
   position: relative;
   padding: 2rem;
+  transition: 0.5s;
+}
+
+.zoom-in .menu-item {
+  opacity: 0;
+}
+.zoom-in .menu-item.current-menu {
+  opacity: 1;
+}
+.current-menu .back-btn {
+  display: inline-block;
 }
 .back-btn {
   display: none;
